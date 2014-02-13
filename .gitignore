@@ -1,0 +1,18 @@
+# *.sln
+# *.suo
+*.ncb
+*.swp
+*.obj
+*.exe
+*.htm
+*.txt
+*.pch
+*.pdb
+*.idb
+*.m
+*.zip
+*.rc
+*.rc2
+*.res
+readme.txt
+
