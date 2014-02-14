@@ -168,7 +168,9 @@ void CECGDlg::OnBnClickedOpenBTSPP()
 
 	m_BtnOpenBTSPP.EnableWindow(FALSE);
     m_BtnCloseBTSPP.EnableWindow(TRUE);
+	/*----Commented by Michael---
 	m_BtnWIFIDisconnect.EnableWindow(FALSE);
+	--------------*/
 
 	//Display status
 	UpdateStatus(L"Open Port!", ADDSTR2STATUS);
@@ -186,7 +188,34 @@ Note:     This is not a flexible code, it depends on the data format we receive.
 *******************************************************************************/
 void CECGDlg::GetECGRawData(char *&buf, double *&data, DWORD bufLen, DWORD &dataLen, BYTE &CurrentState)
 {
+	//*----Debug
+	static FILE *fp_w = NULL;
+	static bool flag = true;
+	//---*/
+
+	//*-----Debug
+	if(flag){
+		fp_w = fopen("read_from.txt","w+");
+		flag = false;
+	}
+	
+	int orig_size = dataLen;
+	//-----*/
+
 	ReadFromFile("mit_test.txt", data, dataLen);
+
+
+	//*---Debug----
+
+	for(short i = orig_size; i< dataLen; i++){
+			fprintf(fp_w,"%lf ", data[i]);
+	}
+	//-----------*/
+
+	/*-----Debug
+	fclose(fp_w);
+	fp_w = NULL;
+	------*/
 
 	//My Implementation
 	/*--------
@@ -467,8 +496,19 @@ DWORD CECGDlg::BTHRecvThread(LPVOID lparam)
 						if( onSetButNoR == false )
 							QRSDetectionBeginIndex = ECGRawDataSize;
 
+#ifdef Debug_PrintECGRawData
+						
+						int raw_startSize = ECGRawDataSize;
+#endif
+
 
 						GetECGRawData(recvBuf, ECGRawData, dwLength, ECGRawDataSize, CurrentState);
+
+#ifdef Debug_PrintECGRawData
+						
+							for( i = raw_startSize ; i < ECGRawDataSize ; i++ )
+								fprintf(bth_ECG, "%04lf\n", ECGRawData[i]);
+#endif
 						myQRSDetect.detectAlg(ECGRawData, QRSDetectionBeginIndex, ECGRawDataSize, RIndex, RIndexCnt, lastQRSOnsetIndex, prevQRSOnsetIndex, onSetButNoR);
 
 
@@ -481,11 +521,22 @@ DWORD CECGDlg::BTHRecvThread(LPVOID lparam)
 #ifdef Debug_PrintPeriodLength
 								fprintf(fp_periodLength, "%d\n", periodLen[i]);
 #endif
+
+#ifdef Debug_PrintRIndex
+								fprintf(fp_RIndex, "%d\n", RIndex[i]);
+#endif
 							}
+
+#ifdef Debug_PrintRIndex
+								fprintf(fp_RIndex, "%d\n", RIndex[periodCnt]);
+#endif
+
+/*
 #ifdef Debug_PrintECGRawData
 							for( i = 0 ; i < RIndex[RIndexCnt-1] ; i++ )
 								fprintf(bth_ECG, "%04lf\n", ECGRawData[i]);
 #endif
+*/
 
 							periodEq.periodNormalize(ECGRawData, normalizedData, periodLen, periodCnt, cNormalizedLen, normalizedDataTotalLen);
 

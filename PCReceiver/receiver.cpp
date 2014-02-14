@@ -152,6 +152,8 @@ int __cdecl main(int argc, char* argv[])
 	ofstream period_length(".\\period_length.txt", ios::out);
 	
 	while(1){
+
+
 		printf("receiving period lengths...\n");
 
 		int recv_bytes = 0; //count the number of received bytes when receiving period length
@@ -177,6 +179,7 @@ int __cdecl main(int argc, char* argv[])
 				return 1;
 			}
 		}
+
 
 		PERIOD_TYPE* pRecvPeriod = (PERIOD_TYPE*)recvbuf;
 		for(short i=0; i<PERIOD_NUM ; i++)
@@ -231,12 +234,12 @@ int __cdecl main(int argc, char* argv[])
 				closesocket(ClientSocket);
 				WSACleanup();
 				ECG_data.close();
+				period_length.close();
 
 				return 1;
 			}
 		}
 		printf("received image data %d bytes\n", recv_bytes);
-
 	}
 
 /*
@@ -253,9 +256,10 @@ int __cdecl main(int argc, char* argv[])
 */
 DONE:    // cleanup
     closesocket(ClientSocket);
-    WSACleanup();
-    ECG_data.close();
 	period_length.close();
+	ECG_data.close();
+
+    WSACleanup();
 
 
     return 0;

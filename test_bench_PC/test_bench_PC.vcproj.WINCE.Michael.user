@@ -6,7 +6,7 @@
 	>
 	<Configurations>
 		<Configuration
-			Name="Debug|Pocket PC 2003 (ARMV4)"
+			Name="Debug|Win32"
 			>
 			<DebugSettings
 				Command="$(TargetPath)"
@@ -31,21 +31,14 @@
 				ShimCommand=""
 				MPIAcceptMode=""
 				MPIAcceptFilter=""
-			/>
-			<DeploymentTool
-				DeploymentDevice="AE1FD546-ECB8-4553-B0AA-53E129544859"
-			/>
-			<DebuggerTool
-				RemoteExecutable=""
-				Arguments=""
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release|Pocket PC 2003 (ARMV4)"
+			Name="Release|Win32"
 			>
 			<DebugSettings
 				Command="$(TargetPath)"
-				WorkingDirectory=""
+				WorkingDirectory="$(TargetDir)"
 				CommandArguments=""
 				Attach="false"
 				DebuggerType="3"
@@ -57,7 +50,7 @@
 				SQLDebugging=""
 				Environment=""
 				EnvironmentMerge="true"
-				DebuggerFlavor=""
+				DebuggerFlavor="0"
 				MPIRunCommand=""
 				MPIRunArguments=""
 				MPIRunWorkingDirectory=""
@@ -66,13 +59,6 @@
 				ShimCommand=""
 				MPIAcceptMode=""
 				MPIAcceptFilter=""
-			/>
-			<DeploymentTool
-				DeploymentDevice="81551346-886F-43a2-B707-A91FAE1B33A7"
-			/>
-			<DebuggerTool
-				RemoteExecutable=""
-				Arguments=""
 			/>
 		</Configuration>
 	</Configurations>
