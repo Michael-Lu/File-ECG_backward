@@ -1,4 +1,3 @@
-#include <stdafx.h>
 #include <cstdio>
 #include <windows.h>
 /*
@@ -32,7 +31,8 @@ int ReadFromFile(char *srcfile, double *&data, DWORD &dataLen){
 		init = false;
 		return err;
 	}
-	
+
+//if(init == false){
 
 	for(int count = 0; count<32; count++){
 		
@@ -52,8 +52,14 @@ int ReadFromFile(char *srcfile, double *&data, DWORD &dataLen){
 		}
 
 	}
+//}else{
+//	char word;
+//	n = fread(&word,sizeof(char),1,fp);
+//}
 
-	Sleep(100);
+
+
+	//Sleep(100);
 
 
 

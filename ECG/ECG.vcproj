@@ -68,8 +68,9 @@
 				AdditionalOptions=" /subsystem:windowsce,4.20 /machine:ARM /ARMPADCODE"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
-				StackReserveSize="65536"
-				StackCommitSize="4096"
+				SubSystem="9"
+				StackReserveSize="0"
+				StackCommitSize="0"
 				EntryPointSymbol="WinMainCRTStartup"
 			/>
 			<Tool

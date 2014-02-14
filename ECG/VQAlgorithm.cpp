@@ -480,8 +480,7 @@ void CECGDlg::OnBnClickedStart()
 	if( !ret )
 		return;
 
-	DWORD IDThread;
-	HANDLE hVQAlgThread;
+
 
 
 	//My Implementation
@@ -489,7 +488,9 @@ void CECGDlg::OnBnClickedStart()
 	SendStartCommand();
 	---------*/
 
-	//InitializeCriticalSection(&m_csCompressedDataBuf);
+	DWORD IDThread;
+	HANDLE hVQAlgThread;
+
 
 	m_ExitVQThreadEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
     hVQAlgThread = CreateThread(0, 0, VQAlgThread, this, 0, &IDThread);
@@ -513,7 +514,6 @@ BOOL CECGDlg::End()
 	DeleteCodeWord(vqcb.codeWord, vqcb.dimension);
 	DeleteCodeWord(gcb.codeWord, gcb.dimension);
 	
-	//DeleteCriticalSection(&m_csCompressedDataBuf);
 	return 0;
 }
 

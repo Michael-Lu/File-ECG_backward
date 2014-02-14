@@ -13,12 +13,12 @@
 
 //#define Debug_PrintPeriodNormalizedData
 
-//#define Debug_PrintPeriodLength
+#define Debug_PrintPeriodLength
 //#define Debug_DumpScaledECG
 //#define Debug_DumpEncodedECG /*dump encoded ECG JP2 Image*/
 
-//#define Debug_PrintRIndex  //Useless now, need to be recovered. The actual retrieving R index codes disappeared!
-//#define Debug_PrintECGRawData
+#define Debug_PrintRIndex
+#define Debug_PrintECGRawData
 
 #endif
 

@@ -4,7 +4,9 @@ if(err)
     err
 else
    figure;
+    i =1;
    while(1)
+       
        [raw_data, period, err] = Jp2Decoder('receive');
        if(err)
            err
@@ -20,12 +22,14 @@ else
        display('------------');
        
        [height width] = size(raw_data);
+       de_norm_data = [];
        for i = 1:height
-           de_norm_data = interp1(1:( (double(period(i))-1)/(width-1) ):doubleperiod(i), raw_data(i,:), 1:period(i),'linear');
+           de_norm_data = cat(2,de_norm_data, interp1(1:( (double(period(i))-1)/(width-1) ):double(period(i)), double(raw_data(i,:)), 1:double(period(i)),'linear') );
        end
-        %raw_data = reshape(raw_data',1,[]);
-       %plot(de_norm_data);
-       %drawnow;
+       plot(de_norm_data);
+       title(['Count',num2str(i)]);
+       drawnow;
+       i = i+1
    end
 end
 
