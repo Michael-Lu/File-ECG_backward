@@ -41,6 +41,9 @@ const BYTE ST_ECGDATA_LOW_BYTE = 8;
 ///////////////////////////////////////////////////////////////////////
 
 
+
+
+
 /*BOOL CECGDlg::OpenPort(LPCTSTR Port, int BaudRate, int DataBits, int Parity, int StopBits, HANDLE &hComm)
 {
     
@@ -193,24 +196,24 @@ void CECGDlg::GetECGRawData(char *&buf, double *&data, DWORD bufLen, DWORD &data
 	static bool flag = true;
 	//---*/
 
-	//*-----Debug
+	/*-----Debug
 	if(flag){
 		fp_w = fopen("read_from.txt","w+");
 		flag = false;
 	}
 	
 	int orig_size = dataLen;
-	//-----*/
+	/-----*/
 
-	ReadFromFile("mit_test.txt", data, dataLen);
+	ReadFromFile("death1.txt", data, dataLen);
 
 
-	//*---Debug----
+	/*---Debug----
 
 	for(short i = orig_size; i< dataLen; i++){
 			fprintf(fp_w,"%lf ", data[i]);
 	}
-	//-----------*/
+	/-----------*/
 
 	/*-----Debug
 	fclose(fp_w);
@@ -386,6 +389,8 @@ DWORD CECGDlg::BTHRecvThread(LPVOID lparam)
 
 	CString dbgstr;
 
+
+
 	while(TRUE)
 	{
 		if(WaitForSingleObject(pDlg->m_ExitBTHThreadEvent, 0) == WAIT_OBJECT_0)
@@ -496,9 +501,12 @@ DWORD CECGDlg::BTHRecvThread(LPVOID lparam)
 						if( onSetButNoR == false )
 							QRSDetectionBeginIndex = ECGRawDataSize;
 
+						dbgstr.Format(_T("raw_data_start_idx: %d"), count_pre_qrs);
+						pDlg->UpdateStatus(dbgstr, ADDSTR2STATUS);
+
 #ifdef Debug_PrintECGRawData
-						
 						int raw_startSize = ECGRawDataSize;
+
 #endif
 
 

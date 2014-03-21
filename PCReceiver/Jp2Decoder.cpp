@@ -28,6 +28,8 @@
 #include <stdlib.h>
 #include <assert.h>
 
+#include <RetrieveWavelet.h>
+
 #include <jasper/jasper.h>
 /* ----*/
 
@@ -78,7 +80,7 @@ void mexFunction( int nlhs, mxArray *plhs[],
 	static int recv_socket;
 	
 	
-	unsigned char *raw_data = NULL; //Note that Matlab follows column-major paradigm	
+	unsigned char *raw_data = NULL; //Note that Matlab follows column-major paradigm
 	unsigned long *period;
 	long int *err;
 	
@@ -86,6 +88,10 @@ void mexFunction( int nlhs, mxArray *plhs[],
 	FILE* f_jp2;
 	PERIOD_TYPE size;
 	char *buf;
+    
+    int feature_array_size = 0;
+	double *feature_results = NULL;
+    double *mx_feature_results = NULL;
 	
 	
 	switch(mode){
@@ -126,17 +132,18 @@ void mexFunction( int nlhs, mxArray *plhs[],
 		printf("RECEIVE\n");
 		
 		
-		if(nlhs != 3){
-			mexPrintf("There should be exactly 3 output arguments, [raw_data, period, err]\n");
+		if(nlhs != 4){
+			mexPrintf("There should be exactly 3 output arguments, [raw_data, period, features, err]\n");
 			return;
 		}
 	
 		plhs[0] = mxCreateNumericMatrix(0, 0, mxUINT8_CLASS, mxREAL); // for raw_data
 		plhs[1] = mxCreateNumericMatrix(PERIOD_NUM, 1, mxUINT32_CLASS, mxREAL); //for preiod
-		plhs[2] = mxCreateNumericMatrix(1, 1, mxINT32_CLASS, mxREAL); //for err
+		plhs[2] = mxCreateNumericMatrix(0, 0, mxDOUBLE_CLASS, mxREAL); //for features
+		plhs[3] = mxCreateNumericMatrix(1, 1, mxINT32_CLASS, mxREAL); //for err
 	
 		period = (unsigned long*)mxGetData(plhs[1]);
-		err = (long int*) mxGetData(plhs[2]);
+		err = (long int*) mxGetData(plhs[3]);
 		*err = 0;
 		
 	/*	----For Debugging decode_jp2()--------
@@ -153,19 +160,45 @@ void mexFunction( int nlhs, mxArray *plhs[],
 		fclose(f_jp2);
 	----------------------------------------------*/
 	
-		if( iResult = recv_data(recv_socket, period, &buf, &size) == 0){
-			printf("Tranferring Done!!\n"); //Will continue to execute case:Close
-			goto DONE;
+		if( ( iResult = recv_data(recv_socket, period, &buf, &size) ) == 0){
+			printf("Tranferring Done!!\n"); //Have to manually call jp2Decoder('close') to clean-up;
+			break;
 		}
 		if( iResult == -1){
+            printf("error in recv_data\n");
 			*err = iResult;
 			break;
 		}
 		
 		if(decode_jp2(buf, size, &raw_data, &M, &N) ){
 			printf("error in decode_jp2\n");
+            *err = -1;
 			break;
 		}
+
+
+		//Retrieve the features
+        //after adding the following piece of code, Matlab will crashed
+        //Probably the pFeature pointer is unvailable here.
+		if(pFeature->get_analyze_done(pFeature)){
+			feature_array_size = pFeature->retrieve_feature(pFeature, &feature_results);
+            if(feature_array_size > 0 && feature_results != NULL){
+                
+                mx_feature_results = (double*) mxMalloc(feature_array_size * sizeof(double));
+                for(short i = 0; i< feature_array_size ; i++){
+                    mx_feature_results[i] = feature_results[i];
+                }
+                free(feature_results);
+                
+                mxSetPr(plhs[2], mx_feature_results);
+                mxSetM(plhs[2], feature_array_size);
+                mxSetN(plhs[2], 1);
+            }else{
+                *err = -1;
+                printf("Get retrieve_feature() falied\n");
+            }
+		}
+        //-----------------------------------------------
 		
 		mxSetData(plhs[0], raw_data);
 		mxSetM(plhs[0], M);

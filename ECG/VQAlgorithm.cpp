@@ -258,7 +258,7 @@ DWORD CECGDlg::VQAlgThread(LPVOID lparam)
 		if( ::send(pDlg->s, (char*)sendbuf, sendlen , 0) != sendlen ){
 			pDlg->UpdateStatus(L"Send Data Failed!", ADDSTR2STATUS);
 		}else{
-			pDlg->UpdateStatus(CString(dbgstr), ADDSTR2STATUS);
+			//pDlg->UpdateStatus(CString(dbgstr), ADDSTR2STATUS);
 		}
 
 		//--- send the length of jp2Image ---
@@ -269,7 +269,7 @@ DWORD CECGDlg::VQAlgThread(LPVOID lparam)
 		if( ::send(pDlg->s, (char*)&jp2Size, sendlen, 0) != sendlen ){
 			pDlg->UpdateStatus(L"Send Data Failed!", ADDSTR2STATUS);
 		}else{
-			pDlg->UpdateStatus(CString(dbgstr), ADDSTR2STATUS);
+			//pDlg->UpdateStatus(CString(dbgstr), ADDSTR2STATUS);
 		}
 
 
@@ -280,7 +280,7 @@ DWORD CECGDlg::VQAlgThread(LPVOID lparam)
 		if( ::send(pDlg->s, (char*)ECGEncoder.getjp2Data(), sendlen , 0) != sendlen ){
 			pDlg->UpdateStatus(L"Send Data Failed!", ADDSTR2STATUS);
 		}else{
-			pDlg->UpdateStatus(CString(dbgstr), ADDSTR2STATUS);
+			//pDlg->UpdateStatus(CString(dbgstr), ADDSTR2STATUS);
 		}
 
 		

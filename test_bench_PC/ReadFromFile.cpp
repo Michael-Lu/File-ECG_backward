@@ -6,6 +6,7 @@ ECG sensor should be disabled. The rest part of whole project still call GetECGR
 Note that data in the txt file named by (char* srcfile) should be separated by whitespace. 
 */
 
+
 int ReadFromFile(char *srcfile, double *&data, DWORD &dataLen){
 
 	
@@ -37,7 +38,6 @@ int ReadFromFile(char *srcfile, double *&data, DWORD &dataLen){
 	for(int count = 0; count<32; count++){
 		
 		n = fscanf(fp,"%lf ", &data[dataLen++]);
-		
 
 		if( feof(fp) ){
 			err = 0;

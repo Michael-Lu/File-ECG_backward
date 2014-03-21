@@ -53,7 +53,7 @@ int ReadFromFile(char *srcfile, double *&data, DWORD &dataLen){
 
 	}
 
-	Sleep(100);
+	Sleep(70);
 
 
 

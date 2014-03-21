@@ -151,7 +151,7 @@
 				Name="VCLinkerTool"
 				AdditionalOptions=" /subsystem:windowsce,4.20 /machine:ARM /ARMPADCODE"
 				AdditionalDependencies="JasperLib.lib MinLibCE.lib"
-				OutputFile="$(OutDir)\n$(ProjectName).exe"
+				OutputFile="$(OutDir)\testECG.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;D:\WinCE-Backup\JasperForWinCE\LibCE\MinLibCE\Pocket PC 2003 (ARMV4)\Debug&quot;;&quot;D:\WinCE-Backup\JasperForWinCE\JasperLib\Pocket PC 2003 (ARMV4)\Debug&quot;"
 				GenerateDebugInformation="true"
