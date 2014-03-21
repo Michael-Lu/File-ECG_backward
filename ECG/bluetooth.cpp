@@ -501,8 +501,6 @@ DWORD CECGDlg::BTHRecvThread(LPVOID lparam)
 						if( onSetButNoR == false )
 							QRSDetectionBeginIndex = ECGRawDataSize;
 
-						dbgstr.Format(_T("raw_data_start_idx: %d"), count_pre_qrs);
-						pDlg->UpdateStatus(dbgstr, ADDSTR2STATUS);
 
 #ifdef Debug_PrintECGRawData
 						int raw_startSize = ECGRawDataSize;
